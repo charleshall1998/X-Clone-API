@@ -1,4 +1,4 @@
-namespace X_Clone_API
+namespace X_Clone_API.Models
 {
     public class WeatherForecast
     {

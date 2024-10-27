@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using X_Clone_API.Models;
 
 namespace X_Clone_API.Controllers
 {
@@ -9,7 +10,7 @@ namespace X_Clone_API.Controllers
         private static readonly string[] Summaries = new[]
         {
         "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-    };
+        };
 
         private readonly ILogger<WeatherForecastController> _logger;
 
