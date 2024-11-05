@@ -19,7 +19,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Data\" />
     <Folder Include="Middleware\" />
     <Folder Include="Helpers\" />
     <Folder Include="Services\" />
