@@ -45,18 +45,32 @@ namespace X_Clone_API.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public User GetUserByEmail(string email)
+        public async Task<User> GetUserByEmail(string email)
         {
-            throw new NotImplementedException();
+            var user = await _userService.GetUserByEmail(email);
+
+            return user;
         }
 
         [HttpGet("username/{username}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public User GetUserByUsername(string username)
+        public async Task<User> GetUserByUsername(string username)
         {
-            throw new NotImplementedException();
+            var user = await _userService.GetUserByUsername(username);
+
+            return user;
+        }
+
+        [HttpGet("users")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        public async Task<IEnumerable<User>> GetAllUsers()
+        {
+            var users = await _userService.GetAllUsers();
+
+            return users;
         }
 
         //3) Create PUT update users method
@@ -64,7 +78,7 @@ namespace X_Clone_API.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public User UpdateUser(User user)
+        public async Task<User> UpdateUser(User user)
         {
             throw new NotImplementedException();
         }
@@ -74,7 +88,7 @@ namespace X_Clone_API.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public bool DeleteUser(int id)
+        public async Task<bool> DeleteUser(int id)
         {
             throw new NotImplementedException();
         }

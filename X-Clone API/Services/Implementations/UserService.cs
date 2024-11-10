@@ -13,8 +13,21 @@ namespace X_Clone_API.Services.Implementations
             _context = context;
         }
 
-        public User CreateUser(string username, string email)
+        public async Task<User> CreateUser(string username, string email)
         {
+            //var user = new User
+            //{
+            //    Username = username,
+            //    Email = email,
+            //    CreatedAt = DateTime.Now,
+            //};
+
+            //var createdUser = await _context.AddAsync(user);
+
+            //await _context.SaveChangesAsync();
+
+            //return createdUser;
+
             throw new NotImplementedException();
         }
 
@@ -25,14 +38,25 @@ namespace X_Clone_API.Services.Implementations
             return user;
         }
 
-        public User GetUserByEmail(string email)
+        public async Task<User> GetUserByEmail(string email)
         {
-            throw new NotImplementedException();
+            var user = await _context.Users.SingleOrDefaultAsync(x => x.Email == email);
+
+            return user;
         }
 
-        public User GetUserByUsername(string username)
+        public async Task<User> GetUserByUsername(string username)
         {
-            throw new NotImplementedException();
+            var user = await _context.Users.SingleOrDefaultAsync(x => x.Username == username);
+
+            return user;
+        }
+
+        public async Task<IEnumerable<User>> GetAllUsers()
+        {
+            var users = await _context.Users.ToListAsync();
+
+            return users;
         }
 
         public bool DeleteUserById(int id)
