@@ -28,13 +28,13 @@ namespace X_Clone_API.Controllers
             return newUser;
         }
 
-        [HttpGet("id/{id}")]
+        [HttpGet("id/{userId}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<User> GetUserById(int id)
+        public async Task<User> GetUserById(int userId)
         {
-            var user = await _userService.GetUserById(id);
+            var user = await _userService.GetUserById(userId);
 
             return user;
         }
@@ -82,13 +82,13 @@ namespace X_Clone_API.Controllers
             return updatedUser;
         }
 
-        [HttpDelete("{id}")]
+        [HttpDelete("{userId}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<bool> DeleteUser(int id)
+        public async Task<bool> DeleteUser(int userId)
         {
-            var isDeleted = await _userService.DeleteUser(id);
+            var isDeleted = await _userService.DeleteUser(userId);
 
             return isDeleted;
         }

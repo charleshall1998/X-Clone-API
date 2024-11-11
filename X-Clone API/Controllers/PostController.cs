@@ -28,7 +28,7 @@ namespace X_Clone_API.Controllers
             return post;
         }
 
-        [HttpGet("id/{id}")]
+        [HttpGet("id/{userId}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -61,13 +61,13 @@ namespace X_Clone_API.Controllers
             return likeCount;
         }
 
-        [HttpDelete("{id}")]
+        [HttpDelete("{postId}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<bool> DeletePost(int id)
+        public async Task<bool> DeletePost(int postId)
         {
-            var isDeleted = await _postService.DeletePost(id);
+            var isDeleted = await _postService.DeletePost(postId);
 
             return isDeleted;
         }
