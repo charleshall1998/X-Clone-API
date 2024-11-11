@@ -39,11 +39,13 @@ namespace X_Clone_API.Services.Interfaces
         /// <returns>Returns all users</returns>
         public Task<IEnumerable<User>> GetAllUsers();
 
+        //TODO: Add update user.
+
         /// <summary>
         /// Deletes an existing user record.
         /// </summary>
         /// <param name="id">The id of the user being deleted.</param>
         /// <returns>True if the operation was successful, false if not.</returns>
-        public bool DeleteUserById(int id);
+        public Task<bool> DeleteUser(int id);
     }
 }

@@ -59,7 +59,7 @@ namespace X_Clone_API.Services.Implementations
             return users;
         }
 
-        public bool DeleteUserById(int id)
+        public async Task<bool> DeleteUser(int id)
         {
             throw new NotImplementedException();
         }

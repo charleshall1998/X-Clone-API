@@ -17,18 +17,16 @@ namespace X_Clone_API.Controllers
             _userService = userService;
         }
 
-        //TODO:
-        //1) Create POST create users method
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public User CreateUser(string username, string email)
+        public async Task<User> CreateUser(string username, string email)
         {
-            throw new NotImplementedException();
-        }
+            var newUser = await _userService.CreateUser(username, email);
 
-        //2) Create GET users by id / email / username method
+            return newUser;
+        }
 
         [HttpGet("id/{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -73,24 +71,25 @@ namespace X_Clone_API.Controllers
             return users;
         }
 
-        //3) Create PUT update users method
         [HttpPut]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<User> UpdateUser(User user)
         {
+            //TODO: Add update user.
             throw new NotImplementedException();
         }
 
-        //4) Create DELETE delete user method
         [HttpDelete("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<bool> DeleteUser(int id)
         {
-            throw new NotImplementedException();
+            var isDeleted = await _userService.DeleteUser(id);
+
+            return isDeleted;
         }
     }
 }

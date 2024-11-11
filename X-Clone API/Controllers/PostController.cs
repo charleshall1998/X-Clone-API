@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using X_Clone_API.Data;
+using X_Clone_API.Services.Interfaces;
 
 namespace X_Clone_API.Controllers
 {
@@ -7,17 +9,67 @@ namespace X_Clone_API.Controllers
     public class PostController : ControllerBase
     {
         private readonly ILogger<PostController> _logger;
+        private IPostService _postService;
 
-        public PostController(ILogger<PostController> logger)
+        public PostController(ILogger<PostController> logger, IPostService postService)
         {
             _logger = logger;
+            _postService = postService;
         }
 
-        //TODO:
-        //1) Create POST create posts method
-        //2) Create GET posts method
-        //3) Create GET posts by user method
-        //4) Create PUT update posts method
-        //5) Create DELETE delete posts method
+        [HttpPost]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<Post> CreatePost(int userId, string content)
+        {
+            var post = await _postService.CreatePost(userId, content);
+
+            return post;
+        }
+
+        [HttpGet("id/{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IEnumerable<Post>> GetPostsByUser(int userId)
+        {
+            var posts = await _postService.GetPostsByUser(userId);
+
+            return posts;
+        }
+
+
+        [HttpGet("posts")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        public async Task<IEnumerable<Post>> GetAllUsers()
+        {
+            var posts = await _postService.GetPosts();
+
+            return posts;
+        }
+
+        [HttpPut]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<int> UpdatePostLikeCount(int postId)
+        {
+            var likeCount = await _postService.UpdatePostLikeCount(postId);
+
+            return likeCount;
+        }
+
+        [HttpDelete("{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<bool> DeletePost(int id)
+        {
+            var isDeleted = await _postService.DeletePost(id);
+
+            return isDeleted;
+        }
     }
 }
