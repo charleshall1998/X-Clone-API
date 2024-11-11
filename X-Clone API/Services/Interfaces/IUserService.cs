@@ -39,7 +39,12 @@ namespace X_Clone_API.Services.Interfaces
         /// <returns>Returns all users</returns>
         public Task<IEnumerable<User>> GetAllUsers();
 
-        //TODO: Add update user.
+        /// <summary>
+        /// Updates a given user
+        /// </summary>
+        /// <param name="user">The user to be updated</param>
+        /// <returns>The newly updated user.</returns>
+        public Task<User> UpdateUser(User user);
 
         /// <summary>
         /// Deletes an existing user record.

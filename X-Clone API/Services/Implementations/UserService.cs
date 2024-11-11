@@ -59,6 +59,11 @@ namespace X_Clone_API.Services.Implementations
             return users;
         }
 
+        public async Task<User> UpdateUser(User user)
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task<bool> DeleteUser(int id)
         {
             throw new NotImplementedException();

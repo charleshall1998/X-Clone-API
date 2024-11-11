@@ -77,8 +77,9 @@ namespace X_Clone_API.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<User> UpdateUser(User user)
         {
-            //TODO: Add update user.
-            throw new NotImplementedException();
+            var updatedUser = await _userService.UpdateUser(user);
+
+            return updatedUser;
         }
 
         [HttpDelete("{id}")]
