@@ -8,10 +8,11 @@ namespace X_Clone_API.Services.Interfaces
         /// <summary>
         /// Creates a new comment record.
         /// </summary>
+        /// <param name="postId">The id of the post that the comment belongs to.</param>
         /// <param name="userId">The id of the user who is creating the comment.</param>
         /// <param name="content">The content of the comment.</param>
         /// <returns>The new comment.</returns>
-        public Task<CommentDto> CreateComment(int userId, string content);
+        public Task<CommentDto> CreateComment(int postId, int userId, string content);
 
         /// <summary>
         /// Gets all comments for a given post.

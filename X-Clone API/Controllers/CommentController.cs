@@ -22,9 +22,9 @@ namespace X_Clone_API.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<CommentDto> CreateComment(int userId, string content)
+        public async Task<CommentDto> CreateComment(int postId, int userId, string content)
         {
-            var comment = await _commentService.CreateComment(userId, content);
+            var comment = await _commentService.CreateComment(postId, userId, content);
 
             return comment;
         }
