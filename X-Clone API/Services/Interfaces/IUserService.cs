@@ -1,4 +1,4 @@
-﻿using X_Clone_API.Data;
+﻿using X_Clone_API.Models.Dto;
 
 namespace X_Clone_API.Services.Interfaces
 {
@@ -10,41 +10,41 @@ namespace X_Clone_API.Services.Interfaces
         /// <param name="username">The username to be assigned to the created user.</param>
         /// <param name="email">The email to be assigned to the created user.</param>
         /// <returns>The new user record.</returns>
-        public Task<User> CreateUser(string username, string email);
+        public Task<UserDto> CreateUser(string username, string email);
 
         /// <summary>
         /// Retrieves a user via their id.
         /// </summary>
         /// <param name="id">The id of the user being searched for.</param>
         /// <returns>The found user, or null if not found.</returns>
-        public Task<User> GetUserById(int id);
+        public Task<UserDto> GetUserById(int id);
 
         /// <summary>
         /// Retrieves a user via their email.
         /// </summary>
         /// <param name="email">The email of the user being searched for.</param>
         /// <returns>The found user, or null if not found.</returns>
-        public Task<User> GetUserByEmail(string email);
+        public Task<UserDto> GetUserByEmail(string email);
 
         /// <summary>
         /// Retrieves a user via their username.
         /// </summary>
         /// <param name="email">The username of the user being searched for.</param>
         /// <returns>The found user, or null if not found.</returns>
-        public Task<User> GetUserByUsername(string username);
+        public Task<UserDto> GetUserByUsername(string username);
 
         /// <summary>
         /// Gets all users.
         /// </summary>
         /// <returns>Returns all users</returns>
-        public Task<IEnumerable<User>> GetAllUsers();
+        public Task<IEnumerable<UserDto>> GetAllUsers();
 
         /// <summary>
         /// Updates a given user
         /// </summary>
         /// <param name="user">The user to be updated</param>
         /// <returns>The newly updated user.</returns>
-        public Task<User> UpdateUser(User user);
+        public Task<UserDto> UpdateUser(UserDto user);
 
         /// <summary>
         /// Deletes an existing user record.

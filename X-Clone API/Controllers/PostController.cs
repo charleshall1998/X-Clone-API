@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using X_Clone_API.Data;
+using X_Clone_API.Models.Dto;
 using X_Clone_API.Services.Interfaces;
 
 namespace X_Clone_API.Controllers
@@ -21,7 +21,7 @@ namespace X_Clone_API.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<Post> CreatePost(int userId, string content)
+        public async Task<PostDto> CreatePost(int userId, string content)
         {
             var post = await _postService.CreatePost(userId, content);
 
@@ -32,7 +32,7 @@ namespace X_Clone_API.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IEnumerable<Post>> GetPostsByUser(int userId)
+        public async Task<IEnumerable<PostDto>> GetPostsByUser(int userId)
         {
             var posts = await _postService.GetPostsByUser(userId);
 
@@ -43,7 +43,7 @@ namespace X_Clone_API.Controllers
         [HttpGet("posts")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
-        public async Task<IEnumerable<Post>> GetAllUsers()
+        public async Task<IEnumerable<PostDto>> GetAllUsers()
         {
             var posts = await _postService.GetPosts();
 

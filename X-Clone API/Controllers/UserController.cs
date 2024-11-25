@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using X_Clone_API.Data;
+using X_Clone_API.Models.Dto;
 using X_Clone_API.Services.Interfaces;
 
 namespace X_Clone_API.Controllers
@@ -21,7 +21,7 @@ namespace X_Clone_API.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<User> CreateUser(string username, string email)
+        public async Task<UserDto> CreateUser(string username, string email)
         {
             var newUser = await _userService.CreateUser(username, email);
 
@@ -32,7 +32,7 @@ namespace X_Clone_API.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<User> GetUserById(int userId)
+        public async Task<UserDto> GetUserById(int userId)
         {
             var user = await _userService.GetUserById(userId);
 
@@ -43,7 +43,7 @@ namespace X_Clone_API.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<User> GetUserByEmail(string email)
+        public async Task<UserDto> GetUserByEmail(string email)
         {
             var user = await _userService.GetUserByEmail(email);
 
@@ -54,7 +54,7 @@ namespace X_Clone_API.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<User> GetUserByUsername(string username)
+        public async Task<UserDto> GetUserByUsername(string username)
         {
             var user = await _userService.GetUserByUsername(username);
 
@@ -64,7 +64,7 @@ namespace X_Clone_API.Controllers
         [HttpGet("users")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
-        public async Task<IEnumerable<User>> GetAllUsers()
+        public async Task<IEnumerable<UserDto>> GetAllUsers()
         {
             var users = await _userService.GetAllUsers();
 
@@ -75,7 +75,7 @@ namespace X_Clone_API.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<User> UpdateUser(User user)
+        public async Task<UserDto> UpdateUser(UserDto user)
         {
             var updatedUser = await _userService.UpdateUser(user);
 

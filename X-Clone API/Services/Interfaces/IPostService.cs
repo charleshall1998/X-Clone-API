@@ -1,4 +1,4 @@
-﻿using X_Clone_API.Data;
+﻿using X_Clone_API.Models.Dto;
 
 namespace X_Clone_API.Services.Interfaces
 {
@@ -10,22 +10,21 @@ namespace X_Clone_API.Services.Interfaces
         /// <param name="userId">The id of the user who is creating the post.</param>
         /// <param name="content">The content of the post.</param>
         /// <returns>The new post record.</returns>
-        public Task<Post> CreatePost(int userId, string content);
+        public Task<PostDto> CreatePost(int userId, string content);
 
         /// <summary>
         /// Gets all posts.
         /// </summary>
         /// <returns>All posts.</returns>
-        public Task<IEnumerable<Post>> GetPosts();
+        public Task<IEnumerable<PostDto>> GetPosts();
 
         /// <summary>
         /// Gets all posts for a given user.
         /// </summary>
         /// <param name="userId">The id of the user to get the posts of.</param>
         /// <returns>All of the posts for a given user.</returns>
-        public Task<IEnumerable<Post>> GetPostsByUser(int userId);
+        public Task<IEnumerable<PostDto>> GetPostsByUser(int userId);
 
-        //4) Create PUT posts likecount method
         /// <summary>
         /// Updates the post like count.
         /// </summary>
@@ -33,7 +32,6 @@ namespace X_Clone_API.Services.Interfaces
         /// <returns>The total number of likes for the given post.</returns>
         public Task<int> UpdatePostLikeCount(int postId);
 
-        //5) Create DELETE delete posts method
         /// <summary>
         /// Deletes a given post.
         /// </summary>

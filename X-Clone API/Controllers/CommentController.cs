@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using X_Clone_API.Data;
+using X_Clone_API.Models.Dto;
 using X_Clone_API.Services.Interfaces;
 
 namespace X_Clone_API.Controllers
@@ -21,7 +22,7 @@ namespace X_Clone_API.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<Comment> CreateComment(int userId, string content)
+        public async Task<CommentDto> CreateComment(int userId, string content)
         {
             var comment = await _commentService.CreateComment(userId, content);
 
@@ -32,7 +33,7 @@ namespace X_Clone_API.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IEnumerable<Comment>> GetCommentsByPost(int postId)
+        public async Task<IEnumerable<CommentDto>> GetCommentsByPost(int postId)
         {
             var comments = await _commentService.GetCommentsByPost(postId);
 
@@ -43,7 +44,7 @@ namespace X_Clone_API.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<Comment> UpdateComment(Comment comment)
+        public async Task<CommentDto> UpdateComment(Comment comment)
         {
             var updatedComment = await _commentService.UpdateComment(comment);
 
