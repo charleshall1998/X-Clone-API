@@ -16,7 +16,26 @@ namespace X_Clone_API.Services.Implementations
 
         public async Task<PostDto> CreatePost(int userId, string content)
         {
-            throw new NotImplementedException();
+            var post = new Post
+            {
+                Content = content,
+                CreatedAt = DateTime.Now,
+                UserId = userId
+            };
+
+            await _context.AddAsync(post);
+
+            await _context.SaveChangesAsync();
+
+            var postDto = new PostDto
+            {
+                Id = post.Id,
+                Content = post.Content,
+                CreatedAt = post.CreatedAt,
+                LikeCount = post.LikeCount
+            };
+
+            return postDto;
         }
 
         public async Task<IEnumerable<PostDto>> GetPostsByUser(int userId)
