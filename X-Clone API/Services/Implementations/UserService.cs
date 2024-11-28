@@ -16,97 +16,47 @@ namespace X_Clone_API.Services.Implementations
 
         public async Task<UserDto> CreateUser(string username, string email)
         {
-            var user = new User
+            try
             {
-                Username = username,
-                Email = email,
-                CreatedAt = DateTime.Now,
-            };
+                var user = new User
+                {
+                    Username = username,
+                    Email = email,
+                    CreatedAt = DateTime.Now,
+                };
 
-            await _context.AddAsync(user);
+                await _context.AddAsync(user);
 
-            await _context.SaveChangesAsync();
+                await _context.SaveChangesAsync();
 
-            var userDto = new UserDto
+                var userDto = new UserDto
+                {
+                    Id = user.Id,
+                    Username = user.Username,
+                    Email = user.Email,
+                    CreatedAt = user.CreatedAt,
+                };
+
+                return userDto;
+            }
+            catch (Exception ex)
             {
-                Id = user.Id,
-                Username = user.Username,
-                Email = user.Email,
-                CreatedAt = user.CreatedAt,
-            };
-
-            return userDto;
+                Console.Error.WriteLine(ex);
+                throw new Exception();
+            }
         }
 
         public async Task<UserDto> GetUserById(int id)
         {
-            var user = await _context.Users.SingleOrDefaultAsync(x => x.Id == id);
-
-            if (user is null)
+            try
             {
-                return null;
-            }
+                var user = await _context.Users.SingleOrDefaultAsync(x => x.Id == id);
 
-            var userDto = new UserDto
-            {
-                Id = user.Id,
-                Username = user.Username,
-                Email = user.Email,
-                CreatedAt = user.CreatedAt
-            };
+                if (user is null)
+                {
+                    return null;
+                }
 
-            return userDto;
-        }
-
-        public async Task<UserDto> GetUserByEmail(string email)
-        {
-            var user = await _context.Users.SingleOrDefaultAsync(x => x.Email == email);
-
-            if (user is null)
-            {
-                return null;
-            }
-
-            var userDto = new UserDto
-            {
-                Id = user.Id,
-                Username = user.Username,
-                Email = user.Email,
-                CreatedAt = user.CreatedAt
-            };
-
-            return userDto;
-        }
-
-        public async Task<UserDto> GetUserByUsername(string username)
-        {
-            var user = await _context.Users.SingleOrDefaultAsync(x => x.Username == username);
-
-            if (user is null)
-            {
-                return null;
-            }
-
-            var userDto = new UserDto
-            {
-                Id = user.Id,
-                Username = user.Username,
-                Email = user.Email,
-                CreatedAt = user.CreatedAt
-            };
-
-            throw new NotImplementedException();
-        }
-
-        public async Task<IEnumerable<UserDto>> GetAllUsers()
-        {
-            var users = await _context.Users.ToListAsync();
-
-
-            var userDtos = new List<UserDto>();
-
-            foreach (var user in users)
-            {
                 var userDto = new UserDto
                 {
                     Id = user.Id,
@@ -115,20 +65,158 @@ namespace X_Clone_API.Services.Implementations
                     CreatedAt = user.CreatedAt
                 };
 
-                userDtos.Add(userDto);
+                return userDto;
             }
+            catch (Exception ex)
+            {
+                Console.Error.WriteLine(ex);
+                throw new Exception();
+            }
+        }
 
-            return userDtos;
+        public async Task<UserDto> GetUserByEmail(string email)
+        {
+            try
+            {
+                var user = await _context.Users.SingleOrDefaultAsync(x => x.Email == email);
+
+                if (user is null)
+                {
+                    return null;
+                }
+
+                var userDto = new UserDto
+                {
+                    Id = user.Id,
+                    Username = user.Username,
+                    Email = user.Email,
+                    CreatedAt = user.CreatedAt
+                };
+
+                return userDto;
+            }
+            catch (Exception ex)
+            {
+                Console.Error.WriteLine(ex);
+                throw new Exception();
+            }
+        }
+
+        public async Task<UserDto> GetUserByUsername(string username)
+        {
+            try
+            {
+                var user = await _context.Users.SingleOrDefaultAsync(x => x.Username == username);
+
+                if (user is null)
+                {
+                    return null;
+                }
+
+                var userDto = new UserDto
+                {
+                    Id = user.Id,
+                    Username = user.Username,
+                    Email = user.Email,
+                    CreatedAt = user.CreatedAt
+                };
+
+                return userDto;
+            }
+            catch (Exception ex)
+            {
+                Console.Error.WriteLine(ex);
+                throw new Exception();
+            }
+        }
+
+        public async Task<IEnumerable<UserDto>> GetAllUsers()
+        {
+            try
+            {
+                var users = await _context.Users.ToListAsync();
+
+
+                var userDtos = new List<UserDto>();
+
+                foreach (var user in users)
+                {
+                    var userDto = new UserDto
+                    {
+                        Id = user.Id,
+                        Username = user.Username,
+                        Email = user.Email,
+                        CreatedAt = user.CreatedAt
+                    };
+
+                    userDtos.Add(userDto);
+                }
+
+                return userDtos;
+            }
+            catch (Exception ex)
+            {
+                Console.Error.WriteLine(ex);
+                throw new Exception();
+            }
         }
 
         public async Task<UserDto> UpdateUser(UserDto user)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var userToUpdate = await _context.Users.FindAsync(user.Id);
+
+                // TODO: Custom exception handling
+                if (userToUpdate is null)
+                {
+                    return null;
+                }
+
+                userToUpdate.Username = user.Username;
+                userToUpdate.Email = user.Email;
+
+                await _context.SaveChangesAsync();
+
+                var userToReturn = new UserDto
+                {
+                    Id = userToUpdate.Id,
+                    Username = userToUpdate.Username,
+                    Email = userToUpdate.Email,
+                    CreatedAt = userToUpdate.CreatedAt,
+                };
+
+                return userToReturn;
+            }
+            catch (Exception ex)
+            {
+                Console.Error.WriteLine(ex);
+                throw new Exception();
+            }
         }
 
-        public async Task<bool> DeleteUser(int id)
+        public async Task<bool> DeleteUser(int userId)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var userToDelete = await _context.Users.FindAsync(userId);
+
+                if (userToDelete is null)
+                {
+                    return false;
+                }
+
+                _context.Remove(userToDelete);
+
+                await _context.SaveChangesAsync();
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Console.Error.WriteLine(ex);
+                throw new Exception();
+            }
         }
     }
 }
