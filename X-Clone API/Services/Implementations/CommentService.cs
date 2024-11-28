@@ -44,6 +44,7 @@ namespace X_Clone_API.Services.Implementations
         {
             var comments = await _context.Comments.Where(c => c.PostId == postId).ToListAsync();
 
+            //TODO: Custom exception handling
             if (!comments.Any())
             {
                 return null;
@@ -66,14 +67,46 @@ namespace X_Clone_API.Services.Implementations
             return commentDtos;
         }
 
-        public async Task<CommentDto> UpdateComment(Comment comment)
+        public async Task<CommentDto> UpdateComment(int commentId, string content)
         {
-            throw new NotImplementedException();
+            var commentToUpdate = await _context.Comments.FindAsync(commentId);
+
+            //TODO: Custom exception handling
+            if (commentToUpdate is null)
+            {
+                return null;
+            }
+
+            commentToUpdate.Content = content;
+
+            await _context.SaveChangesAsync();
+
+            var commentToReturn = new CommentDto
+            {
+                Id = commentToUpdate.Id,
+                Content = commentToUpdate.Content,
+                CreatedAt = commentToUpdate.CreatedAt,
+                UserId = commentToUpdate.UserId,
+                PostId = commentToUpdate.PostId
+            };
+
+            return commentToReturn;
         }
 
-        public async Task<bool> DeleteComment(int postId)
+        public async Task<bool> DeleteComment(int commentId)
         {
-            throw new NotImplementedException();
+            var commentToDelete = await _context.Comments.FindAsync(commentId);
+
+            if (commentToDelete is null)
+            {
+                return false;
+            }
+
+            _context.Remove(commentToDelete);
+
+            await _context.SaveChangesAsync();
+
+            return true;
         }
 
     }

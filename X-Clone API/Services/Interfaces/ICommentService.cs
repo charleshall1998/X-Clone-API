@@ -1,5 +1,4 @@
-﻿using X_Clone_API.Data;
-using X_Clone_API.Models.Dto;
+﻿using X_Clone_API.Models.Dto;
 
 namespace X_Clone_API.Services.Interfaces
 {
@@ -24,15 +23,16 @@ namespace X_Clone_API.Services.Interfaces
         /// <summary>
         /// Updates the comment.
         /// </summary>
-        /// <param name="comment">The comment to update.</param>
+        /// <param name="id">The ID of the comment to be updated.</param>
+        /// <param name="content">The content of the comment to be updated.</param>
         /// <returns>The updated comment.</returns>
-        public Task<CommentDto> UpdateComment(Comment comment);
+        public Task<CommentDto> UpdateComment(int commentId, string content);
 
         /// <summary>
         /// Deletes a given comment.
         /// </summary>
-        /// <param name="postId">The id of the comment to be deleted.</param>
+        /// <param name="commentId">The id of the comment to be deleted.</param>
         /// <returns>True if the deletion was successful, false if else.</returns>
-        public Task<bool> DeleteComment(int postId);
+        public Task<bool> DeleteComment(int commentId);
     }
 }

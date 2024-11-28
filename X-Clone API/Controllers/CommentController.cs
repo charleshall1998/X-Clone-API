@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using X_Clone_API.Data;
 using X_Clone_API.Models.Dto;
 using X_Clone_API.Services.Interfaces;
 
@@ -44,9 +43,9 @@ namespace X_Clone_API.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<CommentDto> UpdateComment(Comment comment)
+        public async Task<CommentDto> UpdateComment(int commentId, string content)
         {
-            var updatedComment = await _commentService.UpdateComment(comment);
+            var updatedComment = await _commentService.UpdateComment(commentId, content);
 
             return updatedComment;
         }
