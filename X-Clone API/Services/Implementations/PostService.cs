@@ -16,116 +16,156 @@ namespace X_Clone_API.Services.Implementations
 
         public async Task<PostDto> CreatePost(int userId, string content)
         {
-            var post = new Post
+            try
             {
-                Content = content,
-                CreatedAt = DateTime.Now,
-                UserId = userId
-            };
+                var post = new Post
+                {
+                    Content = content,
+                    CreatedAt = DateTime.Now,
+                    UserId = userId
+                };
 
-            await _context.AddAsync(post);
+                await _context.AddAsync(post);
 
-            await _context.SaveChangesAsync();
+                await _context.SaveChangesAsync();
 
-            var postDto = new PostDto
+                var postDto = new PostDto
+                {
+                    Id = post.Id,
+                    Content = post.Content,
+                    CreatedAt = post.CreatedAt,
+                    LikeCount = post.LikeCount
+                };
+
+                return postDto;
+            }
+            catch (Exception ex)
             {
-                Id = post.Id,
-                Content = post.Content,
-                CreatedAt = post.CreatedAt,
-                LikeCount = post.LikeCount
-            };
-
-            return postDto;
+                Console.Error.WriteLine(ex);
+                throw new Exception();
+            }
         }
 
         public async Task<IEnumerable<PostDto>> GetPostsByUser(int userId)
         {
-            var posts = await _context.Posts.Where(post => post.UserId == userId).ToListAsync();
-
-            //TODO: Custom exception handling
-            if (!posts.Any())
+            try
             {
-                return null;
-            }
+                var posts = await _context.Posts.Where(post => post.UserId == userId).ToListAsync();
 
-            var postDtos = new List<PostDto>();
-
-            foreach (var post in posts)
-            {
-                var postDto = new PostDto
+                //TODO: Custom exception handling
+                if (!posts.Any())
                 {
-                    Id = post.Id,
-                    Content = post.Content,
-                    CreatedAt = post.CreatedAt,
-                    LikeCount = post.LikeCount
-                };
+                    return null;
+                }
 
-                postDtos.Add(postDto);
+                var postDtos = new List<PostDto>();
+
+                foreach (var post in posts)
+                {
+                    var postDto = new PostDto
+                    {
+                        Id = post.Id,
+                        Content = post.Content,
+                        CreatedAt = post.CreatedAt,
+                        LikeCount = post.LikeCount
+                    };
+
+                    postDtos.Add(postDto);
+                }
+
+                return postDtos;
             }
-
-            return postDtos;
+            catch (Exception ex)
+            {
+                Console.Error.WriteLine(ex);
+                throw new Exception();
+            }
         }
 
         public async Task<IEnumerable<PostDto>> GetPosts()
         {
-            var posts = await _context.Posts.ToListAsync();
-
-            //TODO: Custom exception handling
-            if (!posts.Any())
+            try
             {
-                return null;
-            }
+                var posts = await _context.Posts.ToListAsync();
 
-            var postDtos = new List<PostDto>();
-
-            foreach (var post in posts)
-            {
-                var postDto = new PostDto
+                //TODO: Custom exception handling
+                if (!posts.Any())
                 {
-                    Id = post.Id,
-                    Content = post.Content,
-                    CreatedAt = post.CreatedAt,
-                    LikeCount = post.LikeCount
-                };
+                    return null;
+                }
 
-                postDtos.Add(postDto);
+                var postDtos = new List<PostDto>();
+
+                foreach (var post in posts)
+                {
+                    var postDto = new PostDto
+                    {
+                        Id = post.Id,
+                        Content = post.Content,
+                        CreatedAt = post.CreatedAt,
+                        LikeCount = post.LikeCount
+                    };
+
+                    postDtos.Add(postDto);
+                }
+
+                return postDtos;
             }
-
-            return postDtos;
+            catch (Exception ex)
+            {
+                Console.Error?.WriteLine(ex);
+                throw new Exception();
+            }
         }
 
         //TODO: Refactor to consider concurrency issues
         public async Task<int> UpdatePostLikeCount(int postId)
         {
-            var postToUpdate = await _context.Posts.FindAsync(postId);
-
-            //TODO: Custom exception handling
-            if (postToUpdate is null)
+            try
             {
-                return -1;
+                var postToUpdate = await _context.Posts.FindAsync(postId);
+
+                //TODO: Custom exception handling
+                if (postToUpdate is null)
+                {
+                    return -1;
+                }
+
+                postToUpdate.LikeCount += 1;
+
+                await _context.SaveChangesAsync();
+
+                return postToUpdate.LikeCount;
             }
-
-            postToUpdate.LikeCount += 1;
-
-            await _context.SaveChangesAsync();
-
-            return postToUpdate.LikeCount;
+            catch (Exception ex)
+            {
+                Console.Error.WriteLine(ex);
+                throw new Exception();
+            }
         }
 
         public async Task<bool> DeletePost(int postId)
         {
-            var postToDelete = await _context.Posts.FindAsync(postId);
-
-            if (postToDelete is null)
+            try
             {
-                return false;
+                var postToDelete = await _context.Posts.FindAsync(postId);
+
+                if (postToDelete is null)
+                {
+                    return false;
+                }
+
+                _context.Remove(postToDelete);
+
+                await _context.SaveChangesAsync();
+
+                return true;
             }
-
-            _context.Remove(postToDelete);
-
-            await _context.SaveChangesAsync();
-
-            return true;
+            catch (Exception ex)
+            {
+                Console.Error.WriteLine(ex);
+                throw new Exception();
+            }
         }
     }
 }
