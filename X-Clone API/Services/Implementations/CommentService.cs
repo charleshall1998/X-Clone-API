@@ -16,44 +16,20 @@ namespace X_Clone_API.Services.Implementations
 
         public async Task<CommentDto> CreateComment(int postId, int userId, string content)
         {
-            var comment = new Comment
+            try
             {
-                Content = content,
-                CreatedAt = DateTime.Now,
-                UserId = userId,
-                PostId = postId
-            };
+                var comment = new Comment
+                {
+                    Content = content,
+                    CreatedAt = DateTime.Now,
+                    UserId = userId,
+                    PostId = postId
+                };
 
-            await _context.AddAsync(comment);
+                await _context.AddAsync(comment);
 
-            await _context.SaveChangesAsync();
+                await _context.SaveChangesAsync();
 
-            var commentDto = new CommentDto
-            {
-                Id = comment.Id,
-                Content = comment.Content,
-                CreatedAt = comment.CreatedAt,
-                UserId = comment.UserId,
-                PostId = comment.PostId
-            };
-
-            return commentDto;
-        }
-
-        public async Task<IEnumerable<CommentDto>> GetCommentsByPost(int postId)
-        {
-            var comments = await _context.Comments.Where(c => c.PostId == postId).ToListAsync();
-
-            //TODO: Custom exception handling
-            if (!comments.Any())
-            {
-                return null;
-            }
-
-            var commentDtos = new List<CommentDto>();
-
-            foreach (var comment in comments)
-            {
                 var commentDto = new CommentDto
                 {
                     Id = comment.Id,
@@ -62,51 +38,107 @@ namespace X_Clone_API.Services.Implementations
                     UserId = comment.UserId,
                     PostId = comment.PostId
                 };
-            }
 
-            return commentDtos;
+                return commentDto;
+            }
+            catch (Exception ex)
+            {
+                Console.Error.WriteLine(ex);
+                throw new Exception();
+            }
+        }
+
+        public async Task<IEnumerable<CommentDto>> GetCommentsByPost(int postId)
+        {
+            try
+            {
+                var comments = await _context.Comments.Where(c => c.PostId == postId).ToListAsync();
+
+                //TODO: Custom exception handling
+                if (!comments.Any())
+                {
+                    return null;
+                }
+
+                var commentDtos = new List<CommentDto>();
+
+                foreach (var comment in comments)
+                {
+                    var commentDto = new CommentDto
+                    {
+                        Id = comment.Id,
+                        Content = comment.Content,
+                        CreatedAt = comment.CreatedAt,
+                        UserId = comment.UserId,
+                        PostId = comment.PostId
+                    };
+                }
+
+                return commentDtos;
+            }
+            catch (Exception ex)
+            {
+                Console.Error.WriteLine(ex);
+                throw new Exception();
+            }
         }
 
         public async Task<CommentDto> UpdateComment(int commentId, string content)
         {
-            var commentToUpdate = await _context.Comments.FindAsync(commentId);
-
-            //TODO: Custom exception handling
-            if (commentToUpdate is null)
+            try
             {
-                return null;
+                var commentToUpdate = await _context.Comments.FindAsync(commentId);
+
+                //TODO: Custom exception handling
+                if (commentToUpdate is null)
+                {
+                    return null;
+                }
+
+                commentToUpdate.Content = content;
+
+                await _context.SaveChangesAsync();
+
+                var commentToReturn = new CommentDto
+                {
+                    Id = commentToUpdate.Id,
+                    Content = commentToUpdate.Content,
+                    CreatedAt = commentToUpdate.CreatedAt,
+                    UserId = commentToUpdate.UserId,
+                    PostId = commentToUpdate.PostId
+                };
+
+                return commentToReturn;
             }
-
-            commentToUpdate.Content = content;
-
-            await _context.SaveChangesAsync();
-
-            var commentToReturn = new CommentDto
+            catch (Exception ex)
             {
-                Id = commentToUpdate.Id,
-                Content = commentToUpdate.Content,
-                CreatedAt = commentToUpdate.CreatedAt,
-                UserId = commentToUpdate.UserId,
-                PostId = commentToUpdate.PostId
-            };
-
-            return commentToReturn;
+                Console.Error.WriteLine(ex);
+                throw new Exception();
+            }
         }
 
         public async Task<bool> DeleteComment(int commentId)
         {
-            var commentToDelete = await _context.Comments.FindAsync(commentId);
-
-            if (commentToDelete is null)
+            try
             {
-                return false;
+                var commentToDelete = await _context.Comments.FindAsync(commentId);
+
+                if (commentToDelete is null)
+                {
+                    return false;
+                }
+
+                _context.Remove(commentToDelete);
+
+                await _context.SaveChangesAsync();
+
+                return true;
             }
-
-            _context.Remove(commentToDelete);
-
-            await _context.SaveChangesAsync();
-
-            return true;
+            catch (Exception ex)
+            {
+                Console.Error.WriteLine(ex);
+                throw new Exception();
+            }
         }
 
     }
