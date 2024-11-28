@@ -42,6 +42,7 @@ namespace X_Clone_API.Services.Implementations
         {
             var posts = await _context.Posts.Where(post => post.UserId == userId).ToListAsync();
 
+            //TODO: Custom exception handling
             if (!posts.Any())
             {
                 return null;
@@ -69,6 +70,7 @@ namespace X_Clone_API.Services.Implementations
         {
             var posts = await _context.Posts.ToListAsync();
 
+            //TODO: Custom exception handling
             if (!posts.Any())
             {
                 return null;
@@ -92,14 +94,38 @@ namespace X_Clone_API.Services.Implementations
             return postDtos;
         }
 
+        //TODO: Refactor to consider concurrency issues
         public async Task<int> UpdatePostLikeCount(int postId)
         {
-            throw new NotImplementedException();
+            var postToUpdate = await _context.Posts.FindAsync(postId);
+
+            //TODO: Custom exception handling
+            if (postToUpdate is null)
+            {
+                return -1;
+            }
+
+            postToUpdate.LikeCount += 1;
+
+            await _context.SaveChangesAsync();
+
+            return postToUpdate.LikeCount;
         }
 
         public async Task<bool> DeletePost(int postId)
         {
-            throw new NotImplementedException();
+            var postToDelete = await _context.Posts.FindAsync(postId);
+
+            if (postToDelete is null)
+            {
+                return false;
+            }
+
+            _context.Remove(postToDelete);
+
+            await _context.SaveChangesAsync();
+
+            return true;
         }
     }
 }
