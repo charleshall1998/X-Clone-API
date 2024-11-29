@@ -1,5 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using X_Clone_API.Data;
+using X_Clone_API.Repository.Implementations;
+using X_Clone_API.Repository.Interfaces;
 using X_Clone_API.Services.Implementations;
 using X_Clone_API.Services.Interfaces;
 
@@ -14,6 +16,9 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 builder.Services.AddTransient<IUserService, UserService>();
 builder.Services.AddTransient<IPostService, PostService>();
 builder.Services.AddTransient<ICommentService, CommentService>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<ICommentRepository, CommentRepository>();
+builder.Services.AddScoped<IPostRepository, PostRepository>();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
