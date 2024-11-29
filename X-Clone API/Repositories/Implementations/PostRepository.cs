@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using X_Clone_API.Data;
-using X_Clone_API.Models.Dto;
 using X_Clone_API.Repository.Interfaces;
 
 namespace X_Clone_API.Repository.Implementations
@@ -14,7 +13,7 @@ namespace X_Clone_API.Repository.Implementations
             _context = context;
         }
 
-        public async Task<PostDto> CreatePost(int userId, string content)
+        public async Task<Post> CreatePost(int userId, string content)
         {
             try
             {
@@ -29,15 +28,7 @@ namespace X_Clone_API.Repository.Implementations
 
                 await _context.SaveChangesAsync();
 
-                var postDto = new PostDto
-                {
-                    Id = post.Id,
-                    Content = post.Content,
-                    CreatedAt = post.CreatedAt,
-                    LikeCount = post.LikeCount
-                };
-
-                return postDto;
+                return post;
             }
             catch (Exception ex)
             {
@@ -47,7 +38,7 @@ namespace X_Clone_API.Repository.Implementations
         }
 
         //TODO: Implement paging
-        public async Task<IEnumerable<PostDto>> GetAllPosts()
+        public async Task<IEnumerable<Post>> GetAllPosts()
         {
             try
             {
@@ -59,22 +50,7 @@ namespace X_Clone_API.Repository.Implementations
                     return null;
                 }
 
-                var postDtos = new List<PostDto>();
-
-                foreach (var post in posts)
-                {
-                    var postDto = new PostDto
-                    {
-                        Id = post.Id,
-                        Content = post.Content,
-                        CreatedAt = post.CreatedAt,
-                        LikeCount = post.LikeCount
-                    };
-
-                    postDtos.Add(postDto);
-                }
-
-                return postDtos;
+                return posts;
             }
             catch (Exception ex)
             {
@@ -83,7 +59,7 @@ namespace X_Clone_API.Repository.Implementations
             }
         }
 
-        public async Task<IEnumerable<PostDto>> GetPostsByUser(int userId)
+        public async Task<IEnumerable<Post>> GetPostsByUser(int userId)
         {
             try
             {
@@ -95,22 +71,7 @@ namespace X_Clone_API.Repository.Implementations
                     return null;
                 }
 
-                var postDtos = new List<PostDto>();
-
-                foreach (var post in posts)
-                {
-                    var postDto = new PostDto
-                    {
-                        Id = post.Id,
-                        Content = post.Content,
-                        CreatedAt = post.CreatedAt,
-                        LikeCount = post.LikeCount
-                    };
-
-                    postDtos.Add(postDto);
-                }
-
-                return postDtos;
+                return posts;
             }
             catch (Exception ex)
             {

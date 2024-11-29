@@ -14,7 +14,7 @@ namespace X_Clone_API.Repository.Implementations
             _context = context;
         }
 
-        public async Task<UserDto> CreateUser(string username, string email)
+        public async Task<User> CreateUser(string username, string email)
         {
             try
             {
@@ -29,15 +29,7 @@ namespace X_Clone_API.Repository.Implementations
 
                 await _context.SaveChangesAsync();
 
-                var userDto = new UserDto
-                {
-                    Id = user.Id,
-                    Username = user.Username,
-                    Email = user.Email,
-                    CreatedAt = user.CreatedAt,
-                };
-
-                return userDto;
+                return user;
             }
             catch (Exception ex)
             {
@@ -47,28 +39,13 @@ namespace X_Clone_API.Repository.Implementations
         }
 
         //TODO: Implement paging
-        public async Task<IEnumerable<UserDto>> GetAllUsers()
+        public async Task<IEnumerable<User>> GetAllUsers()
         {
             try
             {
                 var users = await _context.Users.ToListAsync();
 
-                var userDtos = new List<UserDto>();
-
-                foreach (var user in users)
-                {
-                    var userDto = new UserDto
-                    {
-                        Id = user.Id,
-                        Username = user.Username,
-                        Email = user.Email,
-                        CreatedAt = user.CreatedAt
-                    };
-
-                    userDtos.Add(userDto);
-                }
-
-                return userDtos;
+                return users;
             }
             catch (Exception ex)
             {
@@ -77,7 +54,7 @@ namespace X_Clone_API.Repository.Implementations
             }
         }
 
-        public async Task<UserDto> GetUserByEmail(string email)
+        public async Task<User> GetUserByEmail(string email)
         {
             try
             {
@@ -88,15 +65,7 @@ namespace X_Clone_API.Repository.Implementations
                     return null;
                 }
 
-                var userDto = new UserDto
-                {
-                    Id = user.Id,
-                    Username = user.Username,
-                    Email = user.Email,
-                    CreatedAt = user.CreatedAt
-                };
-
-                return userDto;
+                return user;
             }
             catch (Exception ex)
             {
@@ -105,7 +74,7 @@ namespace X_Clone_API.Repository.Implementations
             }
         }
 
-        public async Task<UserDto> GetUserById(int id)
+        public async Task<User> GetUserById(int id)
         {
             try
             {
@@ -116,15 +85,7 @@ namespace X_Clone_API.Repository.Implementations
                     return null;
                 }
 
-                var userDto = new UserDto
-                {
-                    Id = user.Id,
-                    Username = user.Username,
-                    Email = user.Email,
-                    CreatedAt = user.CreatedAt
-                };
-
-                return userDto;
+                return user;
             }
             catch (Exception ex)
             {
@@ -133,7 +94,7 @@ namespace X_Clone_API.Repository.Implementations
             }
         }
 
-        public async Task<UserDto> GetUserByUsername(string username)
+        public async Task<User> GetUserByUsername(string username)
         {
             try
             {
@@ -144,15 +105,7 @@ namespace X_Clone_API.Repository.Implementations
                     return null;
                 }
 
-                var userDto = new UserDto
-                {
-                    Id = user.Id,
-                    Username = user.Username,
-                    Email = user.Email,
-                    CreatedAt = user.CreatedAt
-                };
-
-                return userDto;
+                return user;
             }
             catch (Exception ex)
             {
@@ -161,7 +114,7 @@ namespace X_Clone_API.Repository.Implementations
             }
         }
 
-        public async Task<UserDto> UpdateUser(UserDto user)
+        public async Task<User> UpdateUser(UserDto user)
         {
             try
             {
@@ -178,15 +131,7 @@ namespace X_Clone_API.Repository.Implementations
 
                 await _context.SaveChangesAsync();
 
-                var userToReturn = new UserDto
-                {
-                    Id = userToUpdate.Id,
-                    Username = userToUpdate.Username,
-                    Email = userToUpdate.Email,
-                    CreatedAt = userToUpdate.CreatedAt,
-                };
-
-                return userToReturn;
+                return userToUpdate;
             }
             catch (Exception ex)
             {

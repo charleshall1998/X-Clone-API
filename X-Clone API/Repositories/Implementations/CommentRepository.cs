@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using X_Clone_API.Data;
-using X_Clone_API.Models.Dto;
 using X_Clone_API.Repository.Interfaces;
 
 namespace X_Clone_API.Repository.Implementations
@@ -14,7 +13,7 @@ namespace X_Clone_API.Repository.Implementations
             _context = context;
         }
 
-        public async Task<CommentDto> CreateComment(int postId, int userId, string content)
+        public async Task<Comment> CreateComment(int postId, int userId, string content)
         {
             try
             {
@@ -29,16 +28,7 @@ namespace X_Clone_API.Repository.Implementations
 
                 await _context.SaveChangesAsync();
 
-                var commentDto = new CommentDto
-                {
-                    Id = comment.Id,
-                    Content = comment.Content,
-                    CreatedAt = comment.CreatedAt,
-                    UserId = comment.UserId,
-                    PostId = comment.PostId
-                };
-
-                return commentDto;
+                return comment;
             }
             catch (Exception ex)
             {
@@ -47,7 +37,7 @@ namespace X_Clone_API.Repository.Implementations
             }
         }
 
-        public async Task<IEnumerable<CommentDto>> GetCommentsByPost(int postId)
+        public async Task<IEnumerable<Comment>> GetCommentsByPost(int postId)
         {
             try
             {
@@ -59,21 +49,7 @@ namespace X_Clone_API.Repository.Implementations
                     return null;
                 }
 
-                var commentDtos = new List<CommentDto>();
-
-                foreach (var comment in comments)
-                {
-                    var commentDto = new CommentDto
-                    {
-                        Id = comment.Id,
-                        Content = comment.Content,
-                        CreatedAt = comment.CreatedAt,
-                        UserId = comment.UserId,
-                        PostId = comment.PostId
-                    };
-                }
-
-                return commentDtos;
+                return comments;
             }
             catch (Exception ex)
             {
@@ -82,7 +58,7 @@ namespace X_Clone_API.Repository.Implementations
             }
         }
 
-        public async Task<CommentDto> UpdateComment(int commentId, string content)
+        public async Task<Comment> UpdateComment(int commentId, string content)
         {
             try
             {
@@ -98,16 +74,7 @@ namespace X_Clone_API.Repository.Implementations
 
                 await _context.SaveChangesAsync();
 
-                var commentToReturn = new CommentDto
-                {
-                    Id = commentToUpdate.Id,
-                    Content = commentToUpdate.Content,
-                    CreatedAt = commentToUpdate.CreatedAt,
-                    UserId = commentToUpdate.UserId,
-                    PostId = commentToUpdate.PostId
-                };
-
-                return commentToReturn;
+                return commentToUpdate;
             }
             catch (Exception ex)
             {

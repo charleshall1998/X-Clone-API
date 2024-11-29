@@ -1,14 +1,14 @@
-﻿using X_Clone_API.Models.Dto;
+﻿using X_Clone_API.Data;
 
 namespace X_Clone_API.Repository.Interfaces
 {
     public interface IPostRepository
     {
-        public Task<PostDto> CreatePost(int userId, string content);
+        public Task<Post> CreatePost(int userId, string content);
 
-        public Task<IEnumerable<PostDto>> GetAllPosts();
+        public Task<IEnumerable<Post>> GetAllPosts();
 
-        public Task<IEnumerable<PostDto>> GetPostsByUser(int userId);
+        public Task<IEnumerable<Post>> GetPostsByUser(int userId);
 
         public Task<int> UpdatePostLikeCount(int postId);
 
