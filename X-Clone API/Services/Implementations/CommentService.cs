@@ -48,6 +48,7 @@ namespace X_Clone_API.Services.Implementations
             }
         }
 
+        //TODO: Implement paging
         public async Task<IEnumerable<CommentDto>> GetCommentsByPost(int postId)
         {
             try

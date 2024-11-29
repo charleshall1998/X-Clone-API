@@ -8,12 +8,10 @@ namespace X_Clone_API.Controllers
     [Route("[controller]")]
     public class CommentController : ControllerBase
     {
-        private readonly ILogger<CommentController> _logger;
         private ICommentService _commentService;
 
-        public CommentController(ILogger<CommentController> logger, ICommentService commentService)
+        public CommentController(ICommentService commentService)
         {
-            _logger = logger;
             _commentService = commentService;
         }
 
@@ -26,7 +24,7 @@ namespace X_Clone_API.Controllers
             return Ok(comment);
         }
 
-        [HttpGet("id/{postId}")]
+        [HttpGet("id/{postId}", Name = "GetCommentsByPost")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<CommentDto>))]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<IEnumerable<CommentDto>>> GetCommentsByPost(int postId)
@@ -58,7 +56,7 @@ namespace X_Clone_API.Controllers
 
         [HttpDelete("{commentId}")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(bool))]
-        public async Task<ActionResult<bool>> DeletePost(int commentId)
+        public async Task<ActionResult<bool>> DeleteComment(int commentId)
         {
             var isDeleted = await _commentService.DeleteComment(commentId);
 

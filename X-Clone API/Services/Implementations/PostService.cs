@@ -46,6 +46,7 @@ namespace X_Clone_API.Services.Implementations
             }
         }
 
+        //TODO: Implement paging
         public async Task<IEnumerable<PostDto>> GetPostsByUser(int userId)
         {
             try
@@ -82,7 +83,8 @@ namespace X_Clone_API.Services.Implementations
             }
         }
 
-        public async Task<IEnumerable<PostDto>> GetPosts()
+        //TODO: Implement paging
+        public async Task<IEnumerable<PostDto>> GetAllPosts()
         {
             try
             {

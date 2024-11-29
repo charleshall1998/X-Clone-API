@@ -16,7 +16,7 @@ namespace X_Clone_API.Services.Interfaces
         /// Gets all posts.
         /// </summary>
         /// <returns>All posts.</returns>
-        public Task<IEnumerable<PostDto>> GetPosts();
+        public Task<IEnumerable<PostDto>> GetAllPosts();
 
         /// <summary>
         /// Gets all posts for a given user.

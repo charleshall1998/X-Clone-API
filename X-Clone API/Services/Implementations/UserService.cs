@@ -130,12 +130,12 @@ namespace X_Clone_API.Services.Implementations
             }
         }
 
+        //TODO: Implement paging
         public async Task<IEnumerable<UserDto>> GetAllUsers()
         {
             try
             {
                 var users = await _context.Users.ToListAsync();
-
 
                 var userDtos = new List<UserDto>();
 

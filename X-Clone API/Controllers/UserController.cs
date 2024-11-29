@@ -8,12 +8,10 @@ namespace X_Clone_API.Controllers
     [Route("[controller]")]
     public class UserController : ControllerBase
     {
-        private readonly ILogger<UserController> _logger;
         private IUserService _userService;
 
-        public UserController(ILogger<UserController> logger, IUserService userService)
+        public UserController(IUserService userService)
         {
-            _logger = logger;
             _userService = userService;
         }
 
@@ -26,7 +24,7 @@ namespace X_Clone_API.Controllers
             return Ok(newUser);
         }
 
-        [HttpGet("id/{userId}")]
+        [HttpGet("id/{userId}", Name = "GetUserById")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(UserDto))]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<UserDto>> GetUserById(int userId)
@@ -41,7 +39,7 @@ namespace X_Clone_API.Controllers
             return Ok(user);
         }
 
-        [HttpGet("email/{email}")]
+        [HttpGet("email/{email}", Name = "GetUserByEmail")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(UserDto))]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<UserDto>> GetUserByEmail(string email)
@@ -56,7 +54,7 @@ namespace X_Clone_API.Controllers
             return Ok(user);
         }
 
-        [HttpGet("username/{username}")]
+        [HttpGet("username/{username}", Name = "GetUserByUsername")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(UserDto))]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<UserDto>> GetUserByUsername(string username)
@@ -71,7 +69,7 @@ namespace X_Clone_API.Controllers
             return Ok(user);
         }
 
-        [HttpGet("users")]
+        [HttpGet("users", Name = "GetAllUsers")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<UserDto>))]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<IEnumerable<UserDto>>> GetAllUsers()
@@ -89,7 +87,7 @@ namespace X_Clone_API.Controllers
         [HttpPut]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(UserDto))]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<UserDto>> UpdateUser(UserDto user)
+        public async Task<ActionResult<UserDto>> UpdateUser([FromBody] UserDto user)
         {
             var updatedUser = await _userService.UpdateUser(user);
 

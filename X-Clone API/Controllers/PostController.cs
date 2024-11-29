@@ -8,12 +8,10 @@ namespace X_Clone_API.Controllers
     [Route("[controller]")]
     public class PostController : ControllerBase
     {
-        private readonly ILogger<PostController> _logger;
         private IPostService _postService;
 
-        public PostController(ILogger<PostController> logger, IPostService postService)
+        public PostController(IPostService postService)
         {
-            _logger = logger;
             _postService = postService;
         }
 
@@ -26,7 +24,7 @@ namespace X_Clone_API.Controllers
             return Ok(post);
         }
 
-        [HttpGet("id/{userId}")]
+        [HttpGet("id/{userId}", Name = "GetPostsByUser")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<PostDto>))]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         public async Task<ActionResult<IEnumerable<PostDto>>> GetPostsByUser(int userId)
@@ -41,13 +39,12 @@ namespace X_Clone_API.Controllers
             return Ok(posts);
         }
 
-
-        [HttpGet("posts")]
+        [HttpGet("posts", Name = "GetAllPosts")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<PostDto>))]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
-        public async Task<ActionResult<IEnumerable<PostDto>>> GetAllUsers()
+        public async Task<ActionResult<IEnumerable<PostDto>>> GetAllPosts()
         {
-            var posts = await _postService.GetPosts();
+            var posts = await _postService.GetAllPosts();
 
             if (posts is null)
             {
