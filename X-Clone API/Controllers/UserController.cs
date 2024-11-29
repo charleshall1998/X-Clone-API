@@ -18,79 +18,96 @@ namespace X_Clone_API.Controllers
         }
 
         [HttpPost]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<UserDto> CreateUser(string username, string email)
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(UserDto))]
+        public async Task<ActionResult<UserDto>> CreateUser(string username, string email)
         {
             var newUser = await _userService.CreateUser(username, email);
 
-            return newUser;
+            return Ok(newUser);
         }
 
         [HttpGet("id/{userId}")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status204NoContent)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<UserDto> GetUserById(int userId)
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(UserDto))]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<UserDto>> GetUserById(int userId)
         {
             var user = await _userService.GetUserById(userId);
 
-            return user;
+            if (user is null)
+            {
+                return NotFound();
+            }
+
+            return Ok(user);
         }
 
         [HttpGet("email/{email}")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status204NoContent)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<UserDto> GetUserByEmail(string email)
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(UserDto))]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<UserDto>> GetUserByEmail(string email)
         {
             var user = await _userService.GetUserByEmail(email);
 
-            return user;
+            if (user is null)
+            {
+                return NotFound();
+            }
+
+            return Ok(user);
         }
 
         [HttpGet("username/{username}")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status204NoContent)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<UserDto> GetUserByUsername(string username)
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(UserDto))]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<UserDto>> GetUserByUsername(string username)
         {
             var user = await _userService.GetUserByUsername(username);
 
-            return user;
+            if (user is null)
+            {
+                return NotFound();
+            }
+
+            return Ok(user);
         }
 
         [HttpGet("users")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status204NoContent)]
-        public async Task<IEnumerable<UserDto>> GetAllUsers()
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<UserDto>))]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<IEnumerable<UserDto>>> GetAllUsers()
         {
             var users = await _userService.GetAllUsers();
 
-            return users;
+            if (users is null)
+            {
+                return NotFound();
+            }
+
+            return Ok(users);
         }
 
         [HttpPut]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<UserDto> UpdateUser(UserDto user)
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(UserDto))]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<UserDto>> UpdateUser(UserDto user)
         {
             var updatedUser = await _userService.UpdateUser(user);
 
-            return updatedUser;
+            if (updatedUser is null)
+            {
+                return NotFound();
+            }
+
+            return Ok(updatedUser);
         }
 
         [HttpDelete("{userId}")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<bool> DeleteUser(int userId)
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(bool))]
+        public async Task<ActionResult<bool>> DeleteUser(int userId)
         {
             var isDeleted = await _userService.DeleteUser(userId);
 
-            return isDeleted;
+            return Ok(isDeleted);
         }
     }
 }

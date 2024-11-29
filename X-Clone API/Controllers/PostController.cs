@@ -18,58 +18,61 @@ namespace X_Clone_API.Controllers
         }
 
         [HttpPost]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<PostDto> CreatePost(int userId, string content)
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(PostDto))]
+        public async Task<ActionResult<PostDto>> CreatePost(int userId, string content)
         {
             var post = await _postService.CreatePost(userId, content);
 
-            return post;
+            return Ok(post);
         }
 
         [HttpGet("id/{userId}")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<PostDto>))]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IEnumerable<PostDto>> GetPostsByUser(int userId)
+        public async Task<ActionResult<IEnumerable<PostDto>>> GetPostsByUser(int userId)
         {
             var posts = await _postService.GetPostsByUser(userId);
 
-            return posts;
+            if (posts is null)
+            {
+                return NotFound();
+            }
+
+            return Ok(posts);
         }
 
 
         [HttpGet("posts")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<PostDto>))]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
-        public async Task<IEnumerable<PostDto>> GetAllUsers()
+        public async Task<ActionResult<IEnumerable<PostDto>>> GetAllUsers()
         {
             var posts = await _postService.GetPosts();
 
-            return posts;
+            if (posts is null)
+            {
+                return NotFound();
+            }
+
+            return Ok(posts);
         }
 
         [HttpPut]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<int> UpdatePostLikeCount(int postId)
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(int))]
+        public async Task<ActionResult<int>> UpdatePostLikeCount(int postId)
         {
             var likeCount = await _postService.UpdatePostLikeCount(postId);
 
-            return likeCount;
+            return Ok(likeCount);
         }
 
         [HttpDelete("{postId}")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<bool> DeletePost(int postId)
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(bool))]
+        public async Task<ActionResult<bool>> DeletePost(int postId)
         {
             var isDeleted = await _postService.DeletePost(postId);
 
-            return isDeleted;
+            return Ok(isDeleted);
         }
     }
 }

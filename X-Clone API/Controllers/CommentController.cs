@@ -18,47 +18,51 @@ namespace X_Clone_API.Controllers
         }
 
         [HttpPost]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<CommentDto> CreateComment(int postId, int userId, string content)
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CommentDto))]
+        public async Task<ActionResult<CommentDto>> CreateComment(int postId, int userId, string content)
         {
             var comment = await _commentService.CreateComment(postId, userId, content);
 
-            return comment;
+            return Ok(comment);
         }
 
         [HttpGet("id/{postId}")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status204NoContent)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IEnumerable<CommentDto>> GetCommentsByPost(int postId)
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<CommentDto>))]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<IEnumerable<CommentDto>>> GetCommentsByPost(int postId)
         {
             var comments = await _commentService.GetCommentsByPost(postId);
 
-            return comments;
+            if (comments is null)
+            {
+                return BadRequest();
+            }
+
+            return Ok(comments);
         }
 
         [HttpPut]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<CommentDto> UpdateComment(int commentId, string content)
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CommentDto))]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<CommentDto>> UpdateComment(int commentId, string content)
         {
             var updatedComment = await _commentService.UpdateComment(commentId, content);
 
-            return updatedComment;
+            if (updatedComment is null)
+            {
+                return BadRequest();
+            }
+
+            return Ok(updatedComment);
         }
 
         [HttpDelete("{commentId}")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<bool> DeletePost(int commentId)
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(bool))]
+        public async Task<ActionResult<bool>> DeletePost(int commentId)
         {
             var isDeleted = await _commentService.DeleteComment(commentId);
 
-            return isDeleted;
+            return Ok(isDeleted);
         }
     }
 }
