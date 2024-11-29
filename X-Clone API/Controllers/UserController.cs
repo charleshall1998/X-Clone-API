@@ -5,7 +5,7 @@ using X_Clone_API.Services.Interfaces;
 namespace X_Clone_API.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/user")]
     public class UserController : ControllerBase
     {
         private IUserService _userService;

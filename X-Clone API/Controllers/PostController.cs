@@ -5,7 +5,7 @@ using X_Clone_API.Services.Interfaces;
 namespace X_Clone_API.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/post")]
     public class PostController : ControllerBase
     {
         private IPostService _postService;
