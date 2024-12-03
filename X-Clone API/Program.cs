@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using X_Clone_API.Data;
-using X_Clone_API.Repository.Implementations;
-using X_Clone_API.Repository.Interfaces;
+using X_Clone_API.Data.Repositories.Implementations;
+using X_Clone_API.Data.Repositories.Interfaces;
 using X_Clone_API.Services.Implementations;
 using X_Clone_API.Services.Interfaces;
 

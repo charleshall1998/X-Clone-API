@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using X_Clone_API.Data;
+using X_Clone_API.Models.Data;
 using X_Clone_API.Models.Dto;
 
 namespace X_Clone_API.Mappings

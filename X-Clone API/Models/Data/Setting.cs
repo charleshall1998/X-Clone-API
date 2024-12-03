@@ -1,4 +1,4 @@
-﻿namespace X_Clone_API.Data
+﻿namespace X_Clone_API.Models.Data
 {
     public class Setting
     {

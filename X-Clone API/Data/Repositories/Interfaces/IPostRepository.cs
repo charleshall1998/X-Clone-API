@@ -1,6 +1,6 @@
-﻿using X_Clone_API.Data;
+﻿using X_Clone_API.Models.Data;
 
-namespace X_Clone_API.Repository.Interfaces
+namespace X_Clone_API.Data.Repositories.Interfaces
 {
     public interface IPostRepository
     {

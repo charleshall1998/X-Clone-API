@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
+using X_Clone_API.Data.Repositories.Interfaces;
 using X_Clone_API.Models.Dto;
-using X_Clone_API.Repository.Interfaces;
 using X_Clone_API.Services.Interfaces;
 
 namespace X_Clone_API.Services.Implementations
@@ -9,19 +9,26 @@ namespace X_Clone_API.Services.Implementations
     {
         private IUserRepository _userRepository;
         private IMapper _mapper;
+        private ILogger _logger;
 
-        public UserService(IUserRepository userRepository, IMapper mapper)
+        public UserService(IUserRepository userRepository, IMapper mapper, ILogger logger)
         {
             _userRepository = userRepository;
             _mapper = mapper;
+            _logger = logger;
         }
 
         public async Task<UserDto> CreateUser(string username, string email)
         {
+            _logger.LogInformation("Creating user with username: {username}, email: {email}", username, email);
+
             //TODO: Validations
+
             var user = await _userRepository.CreateUser(username, email);
 
             var userDto = _mapper.Map<UserDto>(user);
+
+            _logger.LogInformation("Successfully created user with ID: {userId} posts", userDto.Id);
 
             return userDto;
         }

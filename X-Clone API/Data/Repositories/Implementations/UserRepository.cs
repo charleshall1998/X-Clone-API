@@ -1,9 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using X_Clone_API.Data;
+using X_Clone_API.Data.Repositories.Interfaces;
+using X_Clone_API.Models.Data;
 using X_Clone_API.Models.Dto;
-using X_Clone_API.Repository.Interfaces;
 
-namespace X_Clone_API.Repository.Implementations
+namespace X_Clone_API.Data.Repositories.Implementations
 {
     public class UserRepository : IUserRepository
     {

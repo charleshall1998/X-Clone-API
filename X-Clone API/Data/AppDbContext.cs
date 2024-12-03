@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using X_Clone_API.Models.Data;
 
 namespace X_Clone_API.Data
 {

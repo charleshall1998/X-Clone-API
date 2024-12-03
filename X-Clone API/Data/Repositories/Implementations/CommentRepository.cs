@@ -1,8 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using X_Clone_API.Data;
-using X_Clone_API.Repository.Interfaces;
+using X_Clone_API.Data.Repositories.Interfaces;
+using X_Clone_API.Models.Data;
 
-namespace X_Clone_API.Repository.Implementations
+namespace X_Clone_API.Data.Repositories.Implementations
 {
     public class CommentRepository : ICommentRepository
     {
