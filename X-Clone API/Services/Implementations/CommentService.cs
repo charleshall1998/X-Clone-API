@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using X_Clone_API.Data.Repositories.Interfaces;
+using X_Clone_API.Models.Data;
 using X_Clone_API.Models.Dto;
 using X_Clone_API.Services.Interfaces;
 
@@ -18,17 +19,30 @@ namespace X_Clone_API.Services.Implementations
             _logger = logger;
         }
 
-        public async Task<CommentDto> CreateComment(int postId, int userId, string content)
+        public async Task<CommentDto> CreateComment(Comment comment)
         {
-            _logger.LogInformation("Creating comment for post ID: {postId}, user ID {UserId}", postId, userId);
+            _logger.LogInformation("Creating comment for post ID: {postId}, user ID {UserId}", comment.PostId, comment.UserId);
 
             //TODO: Validations
 
-            var comment = await _commentRepository.CreateComment(postId, userId, content);
+            var createdComment = await _commentRepository.CreateComment(comment);
 
-            var commentDto = _mapper.Map<CommentDto>(comment);
+            var commentDto = _mapper.Map<CommentDto>(createdComment);
 
             _logger.LogInformation("Successfully created comment with comment ID {commentId}", commentDto.Id);
+
+            return commentDto;
+        }
+
+        public async Task<CommentDto> GetCommentById(int commentId)
+        {
+            _logger.LogInformation("Retrieving comment for post ID: {commentId}", commentId);
+
+            var comments = await _commentRepository.GetCommentsByPost(commentId);
+
+            var commentDto = _mapper.Map<CommentDto>(comments);
+
+            _logger.LogInformation("Successfully retrieved comment");
 
             return commentDto;
         }

@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
+using X_Clone_API.Models.Data;
 using X_Clone_API.Models.Dto;
 using X_Clone_API.Services.Interfaces;
 
@@ -9,22 +11,51 @@ namespace X_Clone_API.Controllers
     public class CommentController : ControllerBase
     {
         private ICommentService _commentService;
+        private IMapper _mapper;
 
-        public CommentController(ICommentService commentService)
+        public CommentController(ICommentService commentService, IMapper mapper)
         {
             _commentService = commentService;
+            _mapper = mapper;
         }
 
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CommentDto))]
-        public async Task<ActionResult<CommentDto>> CreateComment(int postId, int userId, string content)
+        public async Task<ActionResult<CommentDto>> CreateComment([FromBody] CreateCommentDto createCommentDto)
         {
-            var comment = await _commentService.CreateComment(postId, userId, content);
+            if (createCommentDto is null)
+            {
+                return BadRequest("Comment object is null");
+            }
 
-            return Ok(comment);
+            if (!ModelState.IsValid)
+            {
+                return BadRequest("Owner object is invalid");
+            }
+
+            var comment = _mapper.Map<Comment>(createCommentDto);
+
+            await _commentService.CreateComment(comment);
+
+            return CreatedAtRoute("CommentById", new { id = comment.Id }, comment);
         }
 
-        [HttpGet("id/{postId}", Name = "GetCommentsByPost")]
+        [HttpGet("{commentId}", Name = "GetCommentById")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<CommentDto>))]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<CommentDto>> GetCommentById(int commentId)
+        {
+            var comments = await _commentService.GetCommentsById(commentId);
+
+            if (comments is null)
+            {
+                return BadRequest();
+            }
+
+            return Ok(comments);
+        }
+
+        [HttpGet("post/{postId}", Name = "GetCommentsByPost")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<CommentDto>))]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<IEnumerable<CommentDto>>> GetCommentsByPost(int postId)

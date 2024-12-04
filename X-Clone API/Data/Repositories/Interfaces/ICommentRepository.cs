@@ -4,7 +4,9 @@ namespace X_Clone_API.Data.Repositories.Interfaces
 {
     public interface ICommentRepository
     {
-        public Task<Comment> CreateComment(int postId, int userId, string content);
+        public Task<Comment> CreateComment(Comment comment);
+
+        public Task<Comment> GetCommentById(int commentId);
 
         public Task<IEnumerable<Comment>> GetCommentsByPost(int postId);
 

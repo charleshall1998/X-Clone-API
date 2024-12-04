@@ -1,4 +1,5 @@
-﻿using X_Clone_API.Models.Dto;
+﻿using X_Clone_API.Models.Data;
+using X_Clone_API.Models.Dto;
 
 namespace X_Clone_API.Services.Interfaces
 {
@@ -11,7 +12,14 @@ namespace X_Clone_API.Services.Interfaces
         /// <param name="userId">The id of the user who is creating the comment.</param>
         /// <param name="content">The content of the comment.</param>
         /// <returns>The new comment.</returns>
-        public Task<CommentDto> CreateComment(int postId, int userId, string content);
+        public Task<CommentDto> CreateComment(Comment comment);
+
+        /// <summary>
+        /// Gets comment by comment id.
+        /// </summary>
+        /// <param name="commentId">The id of the post to get comments for.</param>
+        /// <returns>All comments for the given post.</returns>
+        public Task<CommentDto> GetCommentsById(int commentId);
 
         /// <summary>
         /// Gets all comments for a given post.

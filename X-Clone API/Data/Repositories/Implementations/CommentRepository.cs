@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using X_Clone_API.Data;
 using X_Clone_API.Data.Repositories.Interfaces;
 using X_Clone_API.Models.Data;
 
@@ -14,20 +13,34 @@ namespace X_Clone_API.Data.Repositories.Implementations
             _context = context;
         }
 
-        public async Task<Comment> CreateComment(int postId, int userId, string content)
+        public async Task<Comment> CreateComment(Comment comment)
         {
             try
             {
-                var comment = new Comment
-                {
-                    Content = content,
-                    CreatedAt = DateTime.Now,
-                    UserId = userId,
-                    PostId = postId
-                };
                 await _context.AddAsync(comment);
 
                 await _context.SaveChangesAsync();
+
+                return comment;
+            }
+            catch (Exception ex)
+            {
+                Console.Error.WriteLine(ex);
+                throw new Exception();
+            }
+        }
+
+        public async Task<Comment> GetCommentById(int commentId)
+        {
+            try
+            {
+                var comment = await _context.Comments.FindAsync(commentId);
+
+                //TODO: Custom exception handling
+                if (comment is null)
+                {
+                    return null;
+                }
 
                 return comment;
             }

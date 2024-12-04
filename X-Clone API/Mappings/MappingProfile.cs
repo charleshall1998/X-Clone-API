@@ -9,6 +9,7 @@ namespace X_Clone_API.Mappings
         public MappingProfile()
         {
             CreateMap<Post, PostDto>();
+            CreateMap<CreateCommentDto, Comment>();
             CreateMap<Comment, CommentDto>();
             CreateMap<User, UserDto>();
         }
