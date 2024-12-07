@@ -20,7 +20,8 @@ namespace X_Clone_API.Controllers
         }
 
         [HttpPost]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CommentDto))]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<CommentDto>> CreateComment([FromBody] CreateCommentDto createCommentDto)
         {
             if (createCommentDto is null)
@@ -30,14 +31,14 @@ namespace X_Clone_API.Controllers
 
             if (!ModelState.IsValid)
             {
-                return BadRequest("Owner object is invalid");
+                return BadRequest("Comment object is invalid");
             }
 
             var comment = _mapper.Map<Comment>(createCommentDto);
 
-            await _commentService.CreateComment(comment);
+            var commentDto = await _commentService.CreateComment(comment);
 
-            return CreatedAtRoute("CommentById", new { id = comment.Id }, comment);
+            return CreatedAtRoute("CommentById", new { id = commentDto.Id }, commentDto);
         }
 
         [HttpGet("{commentId}", Name = "GetCommentById")]
@@ -45,7 +46,7 @@ namespace X_Clone_API.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<CommentDto>> GetCommentById(int commentId)
         {
-            var comments = await _commentService.GetCommentsById(commentId);
+            var comments = await _commentService.GetCommentById(commentId);
 
             if (comments is null)
             {

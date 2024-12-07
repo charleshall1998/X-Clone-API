@@ -1,4 +1,5 @@
-﻿using X_Clone_API.Models.Dto;
+﻿using X_Clone_API.Models.Data;
+using X_Clone_API.Models.Dto;
 
 namespace X_Clone_API.Services.Interfaces
 {
@@ -7,10 +8,9 @@ namespace X_Clone_API.Services.Interfaces
         /// <summary>
         /// Creates a new post record.
         /// </summary>
-        /// <param name="userId">The id of the user who is creating the post.</param>
-        /// <param name="content">The content of the post.</param>
+        /// <param name="post">The post to be created</param>
         /// <returns>The new post record.</returns>
-        public Task<PostDto> CreatePost(int userId, string content);
+        public Task<PostDto> CreatePost(Post post);
 
         /// <summary>
         /// Gets all posts.

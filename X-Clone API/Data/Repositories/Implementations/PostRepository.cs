@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using X_Clone_API.Data;
 using X_Clone_API.Data.Repositories.Interfaces;
 using X_Clone_API.Models.Data;
 
@@ -14,17 +13,10 @@ namespace X_Clone_API.Data.Repositories.Implementations
             _context = context;
         }
 
-        public async Task<Post> CreatePost(int userId, string content)
+        public async Task<Post> CreatePost(Post post)
         {
             try
             {
-                var post = new Post
-                {
-                    Content = content,
-                    CreatedAt = DateTime.Now,
-                    UserId = userId
-                };
-
                 await _context.AddAsync(post);
 
                 await _context.SaveChangesAsync();

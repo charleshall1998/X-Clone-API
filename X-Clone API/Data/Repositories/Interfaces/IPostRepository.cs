@@ -4,7 +4,7 @@ namespace X_Clone_API.Data.Repositories.Interfaces
 {
     public interface IPostRepository
     {
-        public Task<Post> CreatePost(int userId, string content);
+        public Task<Post> CreatePost(Post post);
 
         public Task<IEnumerable<Post>> GetAllPosts();
 

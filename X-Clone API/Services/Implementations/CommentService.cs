@@ -23,15 +23,13 @@ namespace X_Clone_API.Services.Implementations
         {
             _logger.LogInformation("Creating comment for post ID: {postId}, user ID {UserId}", comment.PostId, comment.UserId);
 
-            //TODO: Validations
-
             var createdComment = await _commentRepository.CreateComment(comment);
 
-            var commentDto = _mapper.Map<CommentDto>(createdComment);
+            var createdCommentDto = _mapper.Map<CommentDto>(createdComment);
 
-            _logger.LogInformation("Successfully created comment with comment ID {commentId}", commentDto.Id);
+            _logger.LogInformation("Successfully created comment with comment ID {commentId}", createdCommentDto.Id);
 
-            return commentDto;
+            return createdCommentDto;
         }
 
         public async Task<CommentDto> GetCommentById(int commentId)

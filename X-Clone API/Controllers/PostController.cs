@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
+using X_Clone_API.Models.Data;
 using X_Clone_API.Models.Dto;
 using X_Clone_API.Services.Interfaces;
 
@@ -9,19 +11,34 @@ namespace X_Clone_API.Controllers
     public class PostController : ControllerBase
     {
         private IPostService _postService;
+        private IMapper _mapper;
 
-        public PostController(IPostService postService)
+        public PostController(IPostService postService, IMapper mapper)
         {
             _postService = postService;
+            _mapper = mapper;
         }
 
         [HttpPost]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(PostDto))]
-        public async Task<ActionResult<PostDto>> CreatePost(int userId, string content)
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult<PostDto>> CreatePost([FromBody] CreatePostDto createPostDto)
         {
-            var post = await _postService.CreatePost(userId, content);
+            if (createPostDto is null)
+            {
+                return BadRequest("Post object is null");
+            }
 
-            return Ok(post);
+            if (!ModelState.IsValid)
+            {
+                return BadRequest("Post object is invalid");
+            }
+
+            var post = _mapper.Map<Post>(createPostDto);
+
+            var createdPost = await _postService.CreatePost(post);
+
+            return CreatedAtRoute("PostById", new { id = createdPost.Id }, createdPost);
         }
 
         [HttpGet("id/{userId}", Name = "GetPostsByUser")]
