@@ -14,6 +14,7 @@ namespace X_Clone_API.Mappings
             CreateMap<CreateCommentDto, Comment>();
             CreateMap<Comment, CommentDto>();
 
+            CreateMap<CreateUserDto, User>();
             CreateMap<User, UserDto>();
         }
     }

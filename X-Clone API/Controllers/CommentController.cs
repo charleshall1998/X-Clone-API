@@ -38,7 +38,7 @@ namespace X_Clone_API.Controllers
 
             var commentDto = await _commentService.CreateComment(comment);
 
-            return CreatedAtRoute("CommentById", new { id = commentDto.Id }, commentDto);
+            return CreatedAtRoute("GetCommentById", new { id = commentDto.Id }, commentDto);
         }
 
         [HttpGet("{commentId}", Name = "GetCommentById")]

@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using X_Clone_API.Data;
 using X_Clone_API.Data.Repositories.Interfaces;
 using X_Clone_API.Models.Data;
 using X_Clone_API.Models.Dto;
@@ -15,17 +14,10 @@ namespace X_Clone_API.Data.Repositories.Implementations
             _context = context;
         }
 
-        public async Task<User> CreateUser(string username, string email)
+        public async Task<User> CreateUser(User user)
         {
             try
             {
-                var user = new User
-                {
-                    Username = username,
-                    Email = email,
-                    CreatedAt = DateTime.Now,
-                };
-
                 await _context.AddAsync(user);
 
                 await _context.SaveChangesAsync();

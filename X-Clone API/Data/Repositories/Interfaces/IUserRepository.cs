@@ -5,7 +5,7 @@ namespace X_Clone_API.Data.Repositories.Interfaces
 {
     public interface IUserRepository
     {
-        public Task<User> CreateUser(string username, string email);
+        public Task<User> CreateUser(User user);
 
         public Task<User> GetUserById(int id);
 

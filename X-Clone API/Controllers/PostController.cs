@@ -38,7 +38,7 @@ namespace X_Clone_API.Controllers
 
             var createdPost = await _postService.CreatePost(post);
 
-            return CreatedAtRoute("PostById", new { id = createdPost.Id }, createdPost);
+            return CreatedAtRoute("GetPostById", new { id = createdPost.Id }, createdPost);
         }
 
         [HttpGet("id/{userId}", Name = "GetPostsByUser")]

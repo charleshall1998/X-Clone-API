@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
+using X_Clone_API.Models.Data;
 using X_Clone_API.Models.Dto;
 using X_Clone_API.Services.Interfaces;
 
@@ -9,19 +11,34 @@ namespace X_Clone_API.Controllers
     public class UserController : ControllerBase
     {
         private IUserService _userService;
+        private IMapper _mapper;
 
-        public UserController(IUserService userService)
+        public UserController(IUserService userService, IMapper mapper)
         {
             _userService = userService;
+            _mapper = mapper;
         }
 
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(UserDto))]
-        public async Task<ActionResult<UserDto>> CreateUser(string username, string email)
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult<UserDto>> CreateUser([FromBody] CreateUserDto createUserDto)
         {
-            var newUser = await _userService.CreateUser(username, email);
+            if (createUserDto is null)
+            {
+                return BadRequest("User object is null");
+            }
 
-            return Ok(newUser);
+            if (!ModelState.IsValid)
+            {
+                return BadRequest("User object is invalid");
+            }
+
+            var user = _mapper.Map<User>(createUserDto);
+
+            var userDto = await _userService.CreateUser(user);
+
+            return CreatedAtRoute("GetUserById", new { id = userDto.Id }, userDto);
         }
 
         [HttpGet("id/{userId}", Name = "GetUserById")]

@@ -1,4 +1,5 @@
-﻿using X_Clone_API.Models.Dto;
+﻿using X_Clone_API.Models.Data;
+using X_Clone_API.Models.Dto;
 
 namespace X_Clone_API.Services.Interfaces
 {
@@ -7,10 +8,9 @@ namespace X_Clone_API.Services.Interfaces
         /// <summary>
         /// Creates a new user record.
         /// </summary>
-        /// <param name="username">The username to be assigned to the created user.</param>
-        /// <param name="email">The email to be assigned to the created user.</param>
+        /// <param name="user">The user to be created</param>
         /// <returns>The new user record.</returns>
-        public Task<UserDto> CreateUser(string username, string email);
+        public Task<UserDto> CreateUser(User user);
 
         /// <summary>
         /// Retrieves a user via their id.
