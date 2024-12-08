@@ -41,7 +41,17 @@ namespace X_Clone_API.Controllers
             return CreatedAtRoute("GetPostById", new { id = createdPost.Id }, createdPost);
         }
 
-        [HttpGet("id/{userId}", Name = "GetPostsByUser")]
+        [HttpGet("/{postId}", Name = "GetPostById")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<PostDto>))]
+        public async Task<ActionResult<IEnumerable<PostDto>>> GetPostById(int postId)
+        {
+            var posts = await _postService.GetPostById(postId);
+
+            return Ok(posts);
+        }
+
+
+        [HttpGet("user/{userId}", Name = "GetPostsByUser")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<PostDto>))]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         public async Task<ActionResult<IEnumerable<PostDto>>> GetPostsByUser(int userId)

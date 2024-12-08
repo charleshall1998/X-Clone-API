@@ -8,6 +8,8 @@ namespace X_Clone_API.Data.Repositories.Interfaces
 
         public Task<IEnumerable<Post>> GetAllPosts();
 
+        public Task<Post> GetPostById(int postId);
+
         public Task<IEnumerable<Post>> GetPostsByUser(int userId);
 
         public Task<int> UpdatePostLikeCount(int postId);

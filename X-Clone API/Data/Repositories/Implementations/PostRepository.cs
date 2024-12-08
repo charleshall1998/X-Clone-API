@@ -30,6 +30,27 @@ namespace X_Clone_API.Data.Repositories.Implementations
             }
         }
 
+        public async Task<Post> GetPostById(int postId)
+        {
+            try
+            {
+                var post = await _context.Posts.FindAsync(postId);
+
+                //TODO: Custom exception handling
+                if (post is null)
+                {
+                    return null;
+                }
+
+                return post;
+            }
+            catch (Exception ex)
+            {
+                Console.Error?.WriteLine(ex);
+                throw new Exception();
+            }
+        }
+
         //TODO: Implement paging
         public async Task<IEnumerable<Post>> GetAllPosts()
         {

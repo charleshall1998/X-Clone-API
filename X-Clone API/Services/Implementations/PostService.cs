@@ -34,6 +34,19 @@ namespace X_Clone_API.Services.Implementations
             return postDto;
         }
 
+        public async Task<PostDto> GetPostById(int postId)
+        {
+            _logger.LogInformation("Retrieving posts for post ID: {postId}", postId);
+
+            var post = await _postRepository.GetPostById(postId);
+
+            var postDto = _mapper.Map<PostDto>(post);
+
+            _logger.LogInformation("Successfully retrieved post with ID {postId}", postId);
+
+            return postDto;
+        }
+
         //TODO: Implement paging
         public async Task<IEnumerable<PostDto>> GetPostsByUser(int userId)
         {

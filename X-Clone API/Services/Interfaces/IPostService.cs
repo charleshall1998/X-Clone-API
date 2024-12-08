@@ -19,6 +19,13 @@ namespace X_Clone_API.Services.Interfaces
         public Task<IEnumerable<PostDto>> GetAllPosts();
 
         /// <summary>
+        /// Gets posts for a given post id.
+        /// </summary>
+        /// <param name="postId">The id of the post to get.</param>
+        /// <returns>The post for the given id.</returns>
+        public Task<PostDto> GetPostById(int postId);
+
+        /// <summary>
         /// Gets all posts for a given user.
         /// </summary>
         /// <param name="userId">The id of the user to get the posts of.</param>
